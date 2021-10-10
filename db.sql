@@ -7,6 +7,7 @@ CREATE TABLE users_login (
 )
 
 CREATE TABLE users (
+  id int PRIMARY KEY AUTO_INCREMENT,
   name varchar(50),
   lastname varchar(50),
   city varchar(50),
