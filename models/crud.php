@@ -72,4 +72,29 @@ class Data extends Connection
 
     return $status;
   }
+
+  public static function searchUser($lastname)
+  {
+    $query = Connection::connect()->prepare('SELECT id, name, lastname, city, inscription_date, email FROM users WHERE lastname LIKE \'%:lastname%\'');
+    $query->bindParam(':lastname', $lastname);
+
+    $query->execute();
+
+    $data = $query->fetchAll();
+    $query->closeCursor();
+
+    return $data;
+  }
+
+  public static function getUserById($id)
+  {
+    $query = Connection::connect()->prepare('SELECT id, name, lastname, city, inscription_date, email FROM users WHERE id=:id');
+    $query->bindParam(':id', $id, PDO::PARAM_INT);
+    $query->execute();
+
+    $data = $query->fetch();
+    $query->closeCursor();
+
+    return $data;
+  }
 }
