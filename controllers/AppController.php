@@ -3,7 +3,7 @@ class AppController
 {
   public function page()
   {
-    include 'view/main.php';
+    include 'views/main.php';
   }
 
   public function linkPages()
@@ -11,7 +11,7 @@ class AppController
     if (isset($_GET['action'])) {
       $link = $_GET['action'];
     } else {
-      $link = 'index';
+      $link = 'login';
     }
 
     $response = Pages::pageRoutes($link);
