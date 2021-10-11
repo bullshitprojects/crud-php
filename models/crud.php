@@ -63,7 +63,7 @@ class Data extends Connection
     $query->bindParam(':name', $modelData['name'], PDO::PARAM_STR);
     $query->bindParam(':lastname', $modelData['lastname'], PDO::PARAM_STR);
     $query->bindParam(':city', $modelData['city'], PDO::PARAM_STR);
-    $query->bindParam(':inscription_date', $modelData['inscrption_date'], PDO::PARAM_STR);
+    $query->bindParam(':inscription_date', $modelData['inscription_date'], PDO::PARAM_STR);
     $query->bindParam(':email', $modelData['email'], PDO::PARAM_STR);
     $query->bindParam(':id', $modelData['id'], PDO::PARAM_INT);
 
@@ -75,13 +75,14 @@ class Data extends Connection
 
   public static function searchUser($lastname)
   {
-    $query = Connection::connect()->prepare('SELECT id, name, lastname, city, inscription_date, email FROM users WHERE lastname LIKE \'%:lastname%\'');
-    $query->bindParam(':lastname', $lastname);
+    $query = "SELECT id, name, lastname, city, inscription_date, email FROM users WHERE lastname LIKE :lastname";
+    $bindings = [":lastname" => '%' . $lastname . '%'];
 
-    $query->execute();
+    $response = Connection::connect()->prepare($query);
+    $response->execute($bindings);
 
-    $data = $query->fetchAll();
-    $query->closeCursor();
+    $data = $response->fetchAll(PDO::FETCH_ASSOC);
+    $response->closeCursor();
 
     return $data;
   }
